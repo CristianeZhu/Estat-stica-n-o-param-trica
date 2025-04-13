@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Cristiane Huang Zhu">
+
+<title>Trabalho 1- Estatística Não paramétrica</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="trabalho1-não_paramétrica_files/libs/clipboard/clipboard.min.js"></script>
+<script src="trabalho1-não_paramétrica_files/libs/quarto-html/quarto.js"></script>
+<script src="trabalho1-não_paramétrica_files/libs/quarto-html/popper.min.js"></script>
+<script src="trabalho1-não_paramétrica_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="trabalho1-não_paramétrica_files/libs/quarto-html/anchor.min.js"></script>
+<link href="trabalho1-não_paramétrica_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="trabalho1-não_paramétrica_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="trabalho1-não_paramétrica_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="trabalho1-não_paramétrica_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="trabalho1-não_paramétrica_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Trabalho 1- Estatística Não paramétrica</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Cristiane Huang Zhu </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="ex-1--seja-x-bernoulli12-e-considere-todas-as-possíveis-amostras-aleatórias-de-tamanho-n-4.-calcule-xn-e-s2n-para-cada-uma-das-dezesseis-amostras.-encontre-a-função-de-probabilidade-de-xn-e-s2n." class="level1">
+<h1>Ex 1- Seja X ∼ Bernoulli(1/2) e considere todas as possíveis amostras aleatórias de tamanho n = 4. Calcule Xn e S2n para cada uma das dezesseis amostras. Encontre a função de probabilidade de Xn e S2n.</h1>
+<p>Amostras possíveis</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># valores 0 ou 1 e tamanho 4</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>amostras <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="fu">rep</span>(<span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)),<span class="dv">4</span>))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>amostras</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Var1 Var2 Var3 Var4
+1     0    0    0    0
+2     1    0    0    0
+3     0    1    0    0
+4     1    1    0    0
+5     0    0    1    0
+6     1    0    1    0
+7     0    1    1    0
+8     1    1    1    0
+9     0    0    0    1
+10    1    0    0    1
+11    0    1    0    1
+12    1    1    0    1
+13    0    0    1    1
+14    1    0    1    1
+15    0    1    1    1
+16    1    1    1    1</code></pre>
+</div>
+</div>
+<p>Para fazer o cálculo da média e variância amostral foi feito primeiro uma função para cada uma delas e depois foi aplicada as funções para as amostras usando apply.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Média amostral</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(x)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Variância amostral</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>variancia <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">var</span>(x)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>} </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular a média e variancia para as amostras</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>media_amostral<span class="ot">&lt;-</span> <span class="fu">apply</span>(amostras, <span class="dv">1</span>, media) <span class="co"># aplicar na lista amostra, por linha e aplicar a função media</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>media_amostral</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 0.00 0.25 0.25 0.50 0.25 0.50 0.50 0.75 0.25 0.50 0.50 0.75 0.50 0.75 0.75
+[16] 1.00</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>variancia_amostral <span class="ot">&lt;-</span> <span class="fu">apply</span>(amostras, <span class="dv">1</span>, variancia)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>variancia_amostral</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 0.0000000 0.2500000 0.2500000 0.3333333 0.2500000 0.3333333 0.3333333
+ [8] 0.2500000 0.2500000 0.3333333 0.3333333 0.2500000 0.3333333 0.2500000
+[15] 0.2500000 0.0000000</code></pre>
+</div>
+</div>
+<p>Para encontrar a função de probabilidade da média e da variância foi utilizado table para contar a frequência que ocorre cada valor distinto e depois foi dividido por 16, o número de amostras totais.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Função de probabilidade da média e variância amostral</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>f_prob_media <span class="ot">&lt;-</span> <span class="fu">table</span>(media_amostral)<span class="sc">/</span><span class="dv">16</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>f_prob_media</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>media_amostral
+     0   0.25    0.5   0.75      1 
+0.0625 0.2500 0.3750 0.2500 0.0625 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>f_prob_var <span class="ot">&lt;-</span> <span class="fu">table</span>(variancia_amostral)<span class="sc">/</span><span class="dv">16</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>f_prob_var</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>variancia_amostral
+                0              0.25 0.333333333333333 
+            0.125             0.500             0.375 </code></pre>
+</div>
+</div>
+</section>
+<section id="ex-2--a-escreva-uma-função-r-para-encontrar-estimativas-de-fg-considerando-valores-diversos-de-tamanhos-de-cada-amostra" class="level1">
+<h1>Ex 2- (a) Escreva uma função R para encontrar estimativas de ∆(F,G) considerando valores diversos de tamanhos de cada amostra</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Função phi- estimador não viciado de g(F,G) (enunciado)</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>phi <span class="ot">&lt;-</span> <span class="cf">function</span>(x1, x2, y1, y2) {</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">max</span>(x1, x2) <span class="sc">&lt;</span> <span class="fu">min</span>(y1, y2) <span class="sc">||</span> <span class="fu">max</span>(y1, y2) <span class="sc">&lt;</span> <span class="fu">min</span>(x1, x2)) {</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="dv">1</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="dv">0</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Função para calcular U-estatística U(X, Y)- estimador não viciado de mínima variãncia</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>u_estat <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y){ </span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">#todas as combinações possíveis de x em grupos de 2 (y tbm)</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  comb_x <span class="ot">&lt;-</span> <span class="fu">combn</span>(x, <span class="dv">2</span>, <span class="at">simplify =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  comb_y <span class="ot">&lt;-</span> <span class="fu">combn</span>(y, <span class="dv">2</span>, <span class="at">simplify =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  soma <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  contagem <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (x_par <span class="cf">in</span> comb_x) {</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (y_par <span class="cf">in</span> comb_y) {</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>      soma <span class="ot">&lt;-</span> soma <span class="sc">+</span> <span class="fu">phi</span>(x_par[<span class="dv">1</span>], x_par[<span class="dv">2</span>], y_par[<span class="dv">1</span>], y_par[<span class="dv">2</span>])</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>      contagem <span class="ot">&lt;-</span> contagem <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>  u <span class="ot">&lt;-</span> soma <span class="sc">/</span> contagem</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(u)</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimador não viciado de mínima variância delta(F,G):</span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="cf">function</span>(X, Y) {</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>  valor_u <span class="ot">&lt;-</span> <span class="fu">u_estat</span>(X, Y)</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>((<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>) <span class="sc">*</span> valor_u <span class="sc">-</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="b-gere-amostras-de-tamanho-50100-e-150-das-distribuições-i-normal-padrãoii-cauchy-padrão-e-iii-t-student4.-considere-estas-como-possíveis-distribuições-de-referência." class="level2">
+<h2 class="anchored" data-anchor-id="b-gere-amostras-de-tamanho-50100-e-150-das-distribuições-i-normal-padrãoii-cauchy-padrão-e-iii-t-student4.-considere-estas-como-possíveis-distribuições-de-referência.">(b) Gere amostras de tamanho 50,100 e 150 das distribuições (i) Normal padrão,(ii) Cauchy padrão e (iii) t-Student(4). Considere estas como possíveis distribuições de referência.</h2>
+<p>Para amostras de distribuição Normal padrão foi utlizado a função rnorm, para a distribuição Cauchy padrão rcauchy e para a t-student foi utilizado rt.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Amostras de tamanho 50,100,150 para normal padrão</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>np1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>) </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>tabela_np1 <span class="ot">&lt;-</span><span class="fu">data.frame</span>(np1)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tabela_np1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           np1
+1  -0.56047565
+2  -0.23017749
+3   1.55870831
+4   0.07050839
+5   0.12928774
+6   1.71506499
+7   0.46091621
+8  -1.26506123
+9  -0.68685285
+10 -0.44566197
+11  1.22408180
+12  0.35981383
+13  0.40077145
+14  0.11068272
+15 -0.55584113
+16  1.78691314
+17  0.49785048
+18 -1.96661716
+19  0.70135590
+20 -0.47279141
+21 -1.06782371
+22 -0.21797491
+23 -1.02600445
+24 -0.72889123
+25 -0.62503927
+26 -1.68669331
+27  0.83778704
+28  0.15337312
+29 -1.13813694
+30  1.25381492
+31  0.42646422
+32 -0.29507148
+33  0.89512566
+34  0.87813349
+35  0.82158108
+36  0.68864025
+37  0.55391765
+38 -0.06191171
+39 -0.30596266
+40 -0.38047100
+41 -0.69470698
+42 -0.20791728
+43 -1.26539635
+44  2.16895597
+45  1.20796200
+46 -1.12310858
+47 -0.40288484
+48 -0.46665535
+49  0.77996512
+50 -0.08336907</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>np2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>tabela_np2 <span class="ot">&lt;-</span><span class="fu">data.frame</span>(np2)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tabela_np2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             np2
+1    0.253318514
+2   -0.028546755
+3   -0.042870457
+4    1.368602284
+5   -0.225770986
+6    1.516470604
+7   -1.548752804
+8    0.584613750
+9    0.123854244
+10   0.215941569
+11   0.379639483
+12  -0.502323453
+13  -0.333207384
+14  -1.018575383
+15  -1.071791226
+16   0.303528641
+17   0.448209779
+18   0.053004227
+19   0.922267468
+20   2.050084686
+21  -0.491031166
+22  -2.309168876
+23   1.005738524
+24  -0.709200763
+25  -0.688008616
+26   1.025571370
+27  -0.284773007
+28  -1.220717712
+29   0.181303480
+30  -0.138891362
+31   0.005764186
+32   0.385280401
+33  -0.370660032
+34   0.644376549
+35  -0.220486562
+36   0.331781964
+37   1.096839013
+38   0.435181491
+39  -0.325931586
+40   1.148807618
+41   0.993503856
+42   0.548396960
+43   0.238731735
+44  -0.627906076
+45   1.360652449
+46  -0.600259587
+47   2.187332993
+48   1.532610626
+49  -0.235700359
+50  -1.026420900
+51  -0.710406564
+52   0.256883709
+53  -0.246691878
+54  -0.347542599
+55  -0.951618567
+56  -0.045027725
+57  -0.784904469
+58  -1.667941937
+59  -0.380226520
+60   0.918996609
+61  -0.575346963
+62   0.607964322
+63  -1.617882708
+64  -0.055561966
+65   0.519407204
+66   0.301153362
+67   0.105676194
+68  -0.640706008
+69  -0.849704346
+70  -1.024128791
+71   0.117646597
+72  -0.947474614
+73  -0.490557444
+74  -0.256092192
+75   1.843862005
+76  -0.651949902
+77   0.235386572
+78   0.077960850
+79  -0.961856634
+80  -0.071308086
+81   1.444550858
+82   0.451504053
+83   0.041232922
+84  -0.422496832
+85  -2.053247222
+86   1.131337213
+87  -1.460640071
+88   0.739947511
+89   1.909103569
+90  -1.443893161
+91   0.701784335
+92  -0.262197489
+93  -1.572144159
+94  -1.514667654
+95  -1.601536174
+96  -0.530906522
+97  -1.461755585
+98   0.687916773
+99   2.100108941
+100 -1.287030476</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>np3 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">150</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>) </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>tabela_np3 <span class="ot">&lt;-</span><span class="fu">data.frame</span>(np3)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tabela_np3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            np3
+1    0.78773885
+2    0.76904224
+3    0.33220258
+4   -1.00837661
+5   -0.11945261
+6   -0.28039534
+7    0.56298953
+8   -0.37243876
+9    0.97697339
+10  -0.37458086
+11   1.05271147
+12  -1.04917701
+13  -1.26015524
+14   3.24103993
+15  -0.41685759
+16   0.29822759
+17   0.63656967
+18  -0.48378063
+19   0.51686204
+20   0.36896453
+21  -0.21538051
+22   0.06529303
+23  -0.03406725
+24   2.12845190
+25  -0.74133610
+26  -1.09599627
+27   0.03778840
+28   0.31048075
+29   0.43652348
+30  -0.45836533
+31  -1.06332613
+32   1.26318518
+33  -0.34965039
+34  -0.86551286
+35  -0.23627957
+36  -0.19717589
+37   1.10992029
+38   0.08473729
+39   0.75405379
+40  -0.49929202
+41   0.21444531
+42  -0.32468591
+43   0.09458353
+44  -0.89536336
+45  -1.31080153
+46   1.99721338
+47   0.60070882
+48  -1.25127136
+49  -0.61116592
+50  -1.18548008
+51   2.19881035
+52   1.31241298
+53  -0.26514506
+54   0.54319406
+55  -0.41433995
+56  -0.47624689
+57  -0.78860284
+58  -0.59461727
+59   1.65090747
+60  -0.05402813
+61   0.11924524
+62   0.24368743
+63   1.23247588
+64  -0.51606383
+65  -0.99250715
+66   1.67569693
+67  -0.44116322
+68  -0.72306597
+69  -1.23627312
+70  -1.28471572
+71  -0.57397348
+72   0.61798582
+73   1.10984814
+74   0.70758835
+75  -0.36365730
+76   0.05974994
+77  -0.70459646
+78  -0.71721816
+79   0.88465050
+80  -1.01559258
+81   1.95529397
+82  -0.09031959
+83   0.21453883
+84  -0.73852770
+85  -0.57438869
+86  -1.31701613
+87  -0.18292539
+88   0.41898240
+89   0.32430434
+90  -0.78153649
+91  -0.78862197
+92  -0.50219872
+93   1.49606067
+94  -1.13730362
+95  -0.17905159
+96   1.90236182
+97  -0.10097489
+98  -1.35984070
+99  -0.66476944
+100  0.48545998
+101 -0.37560287
+102 -0.56187636
+103 -0.34391723
+104  0.09049665
+105  1.59850877
+106 -0.08856511
+107  1.08079950
+108  0.63075412
+109 -0.11363990
+110 -1.53290200
+111 -0.52111732
+112 -0.48987045
+113  0.04715443
+114  1.30019868
+115  2.29307897
+116  1.54758106
+117 -0.13315096
+118 -1.75652740
+119 -0.38877986
+120  0.08920722
+121  0.84501300
+122  0.96252797
+123  0.68430943
+124 -1.39527435
+125  0.84964305
+126 -0.44655722
+127  0.17480270
+128  0.07455118
+129  0.42816676
+130  0.02467498
+131 -1.66747510
+132  0.73649596
+133  0.38602657
+134 -0.26565163
+135  0.11814451
+136  0.13403865
+137  0.22101947
+138  1.64084617
+139 -0.21905038
+140  0.16806538
+141  1.16838387
+142  1.05418102
+143  1.14526311
+144 -0.57746800
+145  2.00248273
+146  0.06670087
+147  1.86685184
+148 -1.35090269
+149  0.02098359
+150  1.24991457</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cauchy padrão</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>cp1 <span class="ot">&lt;-</span> <span class="fu">rcauchy</span>(<span class="dv">50</span>, <span class="at">location=</span><span class="dv">0</span>, <span class="at">scale=</span><span class="dv">1</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>tabela_cp1 <span class="ot">&lt;-</span><span class="fu">data.frame</span>(cp1)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tabela_cp1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           cp1
+1   0.92281692
+2  -1.50693124
+3   0.85853717
+4   1.55939721
+5   0.60841808
+6  -0.71970290
+7   0.49489919
+8  -0.62270842
+9   1.70306977
+10  2.39650667
+11 -2.31594369
+12  0.31326742
+13  0.06920546
+14 -0.02185395
+15 -3.70385344
+16 -0.81767034
+17 -0.35330753
+18 -0.96988739
+19 -0.06542653
+20  0.13958827
+21 -0.31314796
+22 -0.44962455
+23 -0.85186856
+24  2.45372434
+25  0.13306343
+26  2.20387373
+27  1.16159104
+28 -0.50767692
+29  2.16740719
+30  1.41790570
+31 -0.94418744
+32 -0.53013812
+33  7.52056321
+34 -1.13692677
+35  0.33914586
+36  0.82718293
+37 -0.14568415
+38 -0.98727901
+39 -0.63923238
+40  3.78481554
+41 -3.29326201
+42 -0.73220459
+43 -0.36567975
+44  2.65124830
+45  0.29162444
+46 -2.39835040
+47 -1.02780133
+48  0.27484740
+49  1.38109918
+50 -2.65747252</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>cp2 <span class="ot">&lt;-</span> <span class="fu">rcauchy</span>(<span class="dv">100</span>, <span class="at">location=</span><span class="dv">0</span>, <span class="at">scale=</span><span class="dv">1</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>tabela_cp2 <span class="ot">&lt;-</span><span class="fu">data.frame</span>(cp2)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tabela_cp2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              cp2
+1   -9.817450e-01
+2   -2.666349e-01
+3    1.310105e+01
+4   -4.671941e+00
+5   -1.087809e+00
+6   -4.803964e-01
+7   -2.934368e-01
+8    1.790060e-01
+9   -1.094456e+02
+10   1.970942e+00
+11  -5.272379e-01
+12  -6.960973e-01
+13   3.862614e-01
+14  -1.266966e+00
+15   9.114752e-01
+16   2.399351e-01
+17  -2.049739e-01
+18   5.382241e-01
+19  -2.008294e+00
+20   6.064136e-01
+21   6.314810e-02
+22  -1.491209e+01
+23   2.778889e-01
+24   1.232275e+00
+25   3.916952e+00
+26  -3.555216e+00
+27  -6.948888e-01
+28   7.361633e-01
+29   7.802376e+00
+30   6.083837e+00
+31  -1.107709e+00
+32  -1.250176e+00
+33  -5.862284e-01
+34  -3.722563e-01
+35  -1.498788e-01
+36  -6.235536e+00
+37  -1.422773e+01
+38   5.943631e-01
+39   1.533448e+01
+40   1.024300e+00
+41   1.256293e-01
+42  -2.218460e+00
+43  -8.004599e+00
+44   4.709617e-01
+45   1.237904e+00
+46  -3.746299e+00
+47   5.704977e-01
+48   3.121202e-01
+49   4.383931e+00
+50   2.053676e+00
+51  -5.297401e-01
+52   1.065780e+00
+53   7.283897e-02
+54  -4.613891e-01
+55   1.747925e+00
+56  -2.275689e+00
+57  -6.807560e+00
+58   2.445544e+00
+59   6.608104e-01
+60   4.404828e+00
+61  -2.295541e+00
+62  -1.525043e+01
+63  -1.824130e+00
+64  -1.138879e+00
+65   2.414244e+01
+66   2.632822e+00
+67   2.147140e-02
+68   1.157486e-02
+69  -1.590898e-02
+70   3.525409e-01
+71   3.828224e+00
+72  -1.225282e+00
+73  -1.048012e+00
+74  -4.253033e-01
+75  -2.837088e+00
+76  -9.617635e-01
+77  -5.204909e-01
+78  -2.703302e+00
+79  -7.595820e-01
+80   7.192374e-02
+81   3.743710e+00
+82  -4.146465e-01
+83  -2.003722e+00
+84  -2.418106e-01
+85   6.008729e-01
+86   1.530859e+00
+87  -7.063081e-01
+88  -3.468637e-02
+89   1.602163e+00
+90   3.743629e-03
+91  -2.460169e-02
+92   5.030226e-01
+93   1.563379e-01
+94  -3.167040e+00
+95   1.590380e+00
+96  -1.136785e+01
+97  -7.487501e-01
+98   2.200082e-01
+99  -1.422659e+00
+100 -1.627946e-01</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>cp3 <span class="ot">&lt;-</span> <span class="fu">rcauchy</span>(<span class="dv">150</span>, <span class="at">location=</span><span class="dv">0</span>, <span class="at">scale=</span><span class="dv">1</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>tabela_cp3 <span class="ot">&lt;-</span><span class="fu">data.frame</span>(cp3)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tabela_cp3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             cp3
+1     1.19168927
+2     0.99627840
+3     0.54744741
+4     0.22890953
+5    -5.48156037
+6    31.30998073
+7    55.76313089
+8    -0.36581177
+9     0.11582395
+10    0.74466828
+11  -23.08306839
+12    0.91765426
+13   -4.14032691
+14   17.92236459
+15   -4.51686983
+16    0.48659703
+17    0.49265900
+18    3.53650712
+19   -1.54329172
+20   -1.91144142
+21   -0.27024129
+22   -0.66539602
+23   -1.62165652
+24   -0.69114667
+25    0.42553799
+26    1.00490368
+27    1.70981884
+28    3.33496515
+29   -2.20795277
+30   -0.68599254
+31    1.05688699
+32   -0.63697003
+33    0.04866289
+34   -1.89729977
+35   -0.67173083
+36    8.19924293
+37    0.74307394
+38    0.05903052
+39    1.23330686
+40   -0.27264868
+41   -0.21136431
+42   -7.43948523
+43    0.82422085
+44   30.09713700
+45   -0.72104307
+46    3.34877920
+47    0.33786055
+48    1.21317170
+49    2.15076810
+50    1.05984190
+51   10.82636780
+52    2.23053218
+53    0.40055809
+54    0.14871706
+55    1.08381618
+56   -0.09883664
+57   27.65620285
+58   14.32929337
+59   -1.00761346
+60   -1.71988107
+61    0.15650297
+62   -1.42185654
+63    2.18288901
+64   -0.38098221
+65   -0.85246705
+66    0.46751205
+67    1.33195575
+68    0.41820451
+69   -3.44599743
+70   -5.09628477
+71   -1.48424782
+72    1.48416661
+73   -2.90328385
+74   -0.02817397
+75   -1.04363285
+76    0.24292857
+77    6.46737395
+78    0.16979534
+79    1.81299179
+80   -1.10627987
+81    0.01290305
+82   -0.87101315
+83    8.55840276
+84   -1.20231540
+85   -1.73407513
+86   -4.34071399
+87   -1.34227111
+88   -1.85721778
+89    1.28378841
+90    0.31535831
+91   -0.11860845
+92   -1.08977531
+93   -2.70476943
+94    0.39566958
+95   -6.28066607
+96    1.08354276
+97   -0.33062255
+98    0.02884765
+99    0.91704707
+100   0.43290499
+101   1.64613243
+102  -1.16048341
+103  -0.02593892
+104  -1.24713154
+105 -71.68981842
+106   4.91014779
+107  -0.16216983
+108   0.39658770
+109   0.24056119
+110  -0.36349853
+111   4.13393932
+112   0.13387123
+113  -2.00222425
+114  10.11056451
+115  -2.57459443
+116   1.14015211
+117   0.53874065
+118   0.37519358
+119 -41.42310815
+120  -6.57662245
+121   0.47304624
+122   0.59041946
+123  -0.92739353
+124 -11.59059253
+125  -0.46677341
+126  -1.64860433
+127   0.04099254
+128  -1.44010886
+129  -0.35395218
+130  -2.27449992
+131   0.35045050
+132  -0.25319236
+133  -1.62768933
+134   0.50397295
+135  -1.02970489
+136  -0.18231150
+137   3.93492077
+138   1.35587913
+139   1.06105551
+140   0.84263427
+141  -4.77931966
+142  -0.95906524
+143  -1.69572439
+144  -6.79323186
+145  -0.67289826
+146  -0.94400050
+147   0.06313061
+148   2.54681309
+149   0.16122001
+150  -0.73665683</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># t-student</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>ts1 <span class="ot">&lt;-</span> <span class="fu">rt</span>(<span class="dv">50</span>, <span class="at">df=</span><span class="dv">4</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>tabela_ts1 <span class="ot">&lt;-</span><span class="fu">data.frame</span>(ts1)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tabela_ts1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            ts1
+1    1.15722298
+2    0.38904018
+3    0.65686161
+4   -1.84052476
+5    0.71233083
+6    1.37542846
+7    1.93941994
+8    0.71910822
+9   -0.70672379
+10  -0.59514862
+11   2.28089543
+12  -1.93037784
+13   0.23513995
+14   0.10850859
+15   0.65480874
+16  -0.39854889
+17  -0.45974562
+18   0.29136956
+19  -1.26786311
+20   0.19673928
+21   0.34310220
+22  -1.16940541
+23  -0.08204713
+24  -0.05297342
+25   0.54976015
+26   0.18348739
+27   0.31723975
+28   0.23187999
+29  -1.29820102
+30   0.65728275
+31 -17.90066456
+32   0.42205355
+33   0.13757360
+34  -0.51706280
+35  -1.39186878
+36  -1.19315175
+37   0.88627388
+38   0.29043269
+39   1.59064301
+40  -0.03148591
+41   1.51644375
+42   1.22301381
+43  -0.30658055
+44  -1.24973059
+45   3.32267023
+46   0.98682850
+47   1.02077688
+48   0.64359944
+49  -1.31970256
+50   0.99991821</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ts2 <span class="ot">&lt;-</span> <span class="fu">rt</span>(<span class="dv">100</span>, <span class="at">df=</span><span class="dv">4</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>tabela_ts2 <span class="ot">&lt;-</span><span class="fu">data.frame</span>(ts2)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tabela_ts2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             ts2
+1   -0.183623461
+2    0.155836982
+3   -2.726834164
+4    1.098796889
+5    0.260713001
+6    1.291567827
+7    1.493009604
+8   -0.032013162
+9   -1.111375905
+10   3.501839735
+11   0.764347330
+12   1.819045695
+13   1.284012652
+14  -1.446241082
+15   0.911101585
+16  -0.730123216
+17   0.083986185
+18   0.919592315
+19   0.943409829
+20  -0.654057323
+21   0.042191619
+22   1.503449209
+23   0.529763696
+24  -2.543518008
+25   2.297055645
+26   0.516962370
+27  -0.145598165
+28   1.479999040
+29  -0.461931774
+30   0.404745917
+31  -3.390532675
+32  -0.930304852
+33   0.637297610
+34   0.388826569
+35   2.029691968
+36  -0.702024354
+37  -0.268072603
+38  -0.139158060
+39  -2.480665661
+40   1.129102145
+41   2.750279707
+42   0.200196845
+43   1.341846981
+44  -0.790978082
+45  -0.238839751
+46  -0.287920621
+47   0.214643732
+48  -0.562073653
+49  -1.027101927
+50   1.331701430
+51   4.927162251
+52  -1.309528579
+53   0.747778363
+54   2.751596078
+55  -1.028731044
+56  -2.092405021
+57  -1.216177176
+58  -0.282991852
+59   0.265715472
+60  -0.104799658
+61   0.267373345
+62   2.872037762
+63  -2.557434849
+64  -2.742682095
+65  -1.698222921
+66   0.734693766
+67  -0.299063457
+68  -0.052440288
+69   0.202284708
+70   0.182769210
+71  -0.005290223
+72  -0.336643900
+73  -0.823169900
+74  -2.941995203
+75  -2.604663881
+76  -2.971155414
+77  -3.273980927
+78   0.413766863
+79   1.275332618
+80  -2.656086854
+81   0.562507948
+82  -3.631587162
+83   0.171698725
+84  -0.373229842
+85  -8.022391696
+86   1.885550038
+87   1.030254777
+88   1.945968566
+89  -1.089075836
+90  -0.072402204
+91  -0.407616853
+92  -0.337121616
+93   1.049990396
+94  -1.793890102
+95  -0.329776093
+96   0.167599192
+97   0.512673786
+98   3.813936784
+99   0.168155667
+100 -1.087091994</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>ts3 <span class="ot">&lt;-</span> <span class="fu">rt</span>(<span class="dv">150</span>, <span class="at">df=</span><span class="dv">4</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>tabela_ts3 <span class="ot">&lt;-</span><span class="fu">data.frame</span>(ts3)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tabela_ts3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            ts3
+1    1.00163973
+2   -2.32574050
+3    2.22293345
+4    0.89717425
+5   -0.38230729
+6    1.36646980
+7    0.10023370
+8   -1.04050979
+9    1.66424582
+10   0.68531187
+11  -1.77704997
+12   1.54274926
+13   0.52668156
+14  -1.59149885
+15  -0.78351667
+16   1.19250237
+17  -0.27433524
+18  -1.49320969
+19  -0.29328308
+20   0.02101655
+21   1.54514031
+22   1.68103607
+23   0.59084826
+24   0.14655172
+25  -1.31449592
+26  -1.65646482
+27   0.79629169
+28  -1.90238989
+29   2.21409414
+30   0.46759046
+31   2.44294534
+32   0.48216396
+33  -0.58882949
+34   0.37743541
+35  -0.23712126
+36  -1.50074312
+37  -0.35756928
+38   0.15224928
+39   0.68526121
+40   1.03966372
+41  -0.47412896
+42   0.11792826
+43   0.31485673
+44   0.87576417
+45   0.83564183
+46   2.49571173
+47   0.05191612
+48   0.08444088
+49   0.77756317
+50  -0.54557952
+51   0.97204970
+52  -0.58104798
+53  -0.73417941
+54   0.08710186
+55  -1.48359594
+56  -1.83532412
+57   1.28908741
+58   0.54048776
+59   1.38978273
+60  -1.32393006
+61  -0.07229769
+62  -1.98325935
+63  -0.26325888
+64  -0.02194601
+65  -1.18482787
+66   2.18014249
+67  -0.24094159
+68   6.50868425
+69   0.18013676
+70   0.32832890
+71   0.19238388
+72  -0.20297565
+73   2.32452268
+74   0.15755567
+75   1.39504717
+76   1.62860813
+77   0.66870978
+78   0.48375065
+79   3.61136229
+80  -1.24168604
+81   3.36596989
+82  -1.90024724
+83  -0.62980670
+84  -0.18389404
+85  -0.74617621
+86   1.00654842
+87  -4.54180648
+88   2.28235112
+89  -2.21735906
+90   1.96262544
+91   0.54441523
+92   0.07107802
+93  -1.55358045
+94   0.36141712
+95  -1.44980977
+96  -0.47449249
+97   0.35102725
+98  -1.53904023
+99  -1.85834652
+100 -1.34398075
+101  0.80270923
+102 -0.44865085
+103 -0.61671883
+104  0.35587625
+105  0.62108144
+106  0.67152927
+107 -1.16638278
+108  2.11478960
+109 -0.47877831
+110 -2.19958405
+111 -1.31781838
+112 -0.55844947
+113  0.81687845
+114  0.55455910
+115  1.54236984
+116 -0.34377824
+117 -2.07819071
+118  0.06759588
+119 -2.00417093
+120 -2.04040429
+121  1.85586751
+122  2.77928952
+123 -1.03478840
+124 -0.08790629
+125 -0.66769784
+126 -0.89619754
+127 -0.83035955
+128  0.45632325
+129 -0.27328090
+130  0.82691188
+131 -2.76337849
+132 -0.80820448
+133  1.03618317
+134 -0.48441525
+135 -0.08534971
+136 -5.44030122
+137  0.31401522
+138 -0.44461920
+139 -1.50438969
+140 -0.25291078
+141  0.07822168
+142  1.34361288
+143 -3.37888007
+144  0.28100649
+145  1.15336805
+146  0.64177190
+147 -1.17342280
+148 -0.16941310
+149 -0.63083175
+150  2.41907373</code></pre>
+</div>
+</div>
+</section>
+<section id="calcule-as-estimativas-de-b-f-g-para-cada-amostra-das-distribuições-de-referência-f-obtidas-no-item-b-e-a-amostra-da-distribuição-desconhecida-g-obtida-no-arquivo-de-dados-anexo." class="level2">
+<h2 class="anchored" data-anchor-id="calcule-as-estimativas-de-b-f-g-para-cada-amostra-das-distribuições-de-referência-f-obtidas-no-item-b-e-a-amostra-da-distribuição-desconhecida-g-obtida-no-arquivo-de-dados-anexo.">Calcule as estimativas de ∆( b F, G) para cada amostra das distribuições de referência F obtidas no item (b) e a amostra da distribuição desconhecida G, obtida no arquivo de dados anexo.</h2>
+<p>Para calcular as estimativas para as amostras encontradas anteriormente e as amostras desconhecidas, foi utilizada a função mapply, combinando a função delta criada na letra a e as amostras.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(data.table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Carregando pacotes exigidos: data.table</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"Trabalho_Lucambio/dados.csv"</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> dados[[<span class="dv">1</span>]]</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">delta</span>(tabela_np1[[<span class="dv">1</span>]], G)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">delta</span>(tabela_np2[[<span class="dv">1</span>]], G)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fu">delta</span>(tabela_np3[[<span class="dv">1</span>]], G)</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">delta</span>(tabela_cp1[[<span class="dv">1</span>]], G)</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fu">delta</span>(tabela_cp2[[<span class="dv">1</span>]], G)</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">delta</span>(tabela_cp3[[<span class="dv">1</span>]], G)</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">delta</span>(tabela_ts1[[<span class="dv">1</span>]], G)</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">delta</span>(tabela_ts2[[<span class="dv">1</span>]], G)</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="fu">delta</span>(tabela_ts3[[<span class="dv">1</span>]], G)</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.001144836</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="d-segundo-seus-cálculos-qual-é-a-distribuição-desconhecida-g" class="level1">
+<h1>(d) Segundo seus cálculos, qual é a distribuição desconhecida G?</h1>
+<p>Primeiro, fiz a média dos resultados para cada distribuição para depois comparar os valores. A distribuição desconhecida de G é a distribuição Cauchy padrão pois é a que apresentou menor valor médio de delta F e G ,ou seja, indica mais similaridade entre as distribuições (Os valores da média da normal padrão, cauchy padrão e t-student são respectivamente, 0.00177, -0.00246 e -0.00201).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>media_np <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">c</span>(a,b,c))</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>media_cp <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">c</span>(d,e,f))</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>media_ts <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">c</span>(g,h,i))</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(media_np)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.001777947</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(media_cp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.002469924</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(media_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.0002013504</code></pre>
+</div>
+</div>
+</section>
+<section id="ex-3--encontre-o-estimador-não-viciado-de-mínima-variância-de" class="level1">
+<h1>Ex 3- Encontre o estimador não viciado de mínima variância de:</h1>
+<section id="letra-a--esperança-do-produto" class="level2">
+<h2 class="anchored" data-anchor-id="letra-a--esperança-do-produto">Letra a- Esperança do produto</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">#sendo x e y amostras independentes</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="do">## E(xy)= E(x)*E(y)</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>estimador_esp <span class="ot">&lt;-</span> <span class="cf">function</span>(x,y) {</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  media_x <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  media_y <span class="ot">&lt;-</span> <span class="fu">mean</span>(y)</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  e_x_y <span class="ot">&lt;-</span> media_x<span class="sc">*</span>media_y</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(e_x_y)</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="letra-b--variância-da-soma-de-x-e-y" class="level2">
+<h2 class="anchored" data-anchor-id="letra-b--variância-da-soma-de-x-e-y">Letra b- Variância da soma de x e y</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>estimador_var <span class="ot">&lt;-</span> <span class="cf">function</span>(x,y) {</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  var_x <span class="ot">&lt;-</span> <span class="fu">var</span>(x) </span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  var_y <span class="ot">&lt;-</span> <span class="fu">var</span>(y)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  estimativa <span class="ot">&lt;-</span> var_y <span class="sc">+</span> var_x</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(estimativa)</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="ex-4" class="level1">
+<h1>Ex 4</h1>
+<section id="dados" class="level2">
+<h2 class="anchored" data-anchor-id="dados">Dados</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="do">## dados</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>phipsi <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"http://leg.ufpr.br/~lucambio/Nonparam/phipsi.csv"</span>, <span class="at">sep =</span> <span class="st">","</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> phipsi<span class="sc">$</span>psi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="função-para-gerar-amostras-de-tamanho-n-a-partir-da-densidade-kernel" class="level1">
+<h1>Função para gerar amostras de tamanho n, a partir da densidade kernel</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>amostra_kernel <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">N=</span><span class="dv">600</span>) {</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  h <span class="ot">&lt;-</span> <span class="fu">bw.nrd</span>(x)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  n<span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  amostras <span class="ot">&lt;-</span> <span class="fu">numeric</span>(N)</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N) {</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    i <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="dv">1</span>)</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>    amostras[j] <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> x[i], <span class="at">sd =</span> h)</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(amostras)</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Amostra de tamanho N=600</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">amostra_kernel</span>(x, <span class="at">N=</span><span class="dv">600</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>#Comparação gráfica Através da comparação gráfica, foi possível verificar que a densidade da nova amostra acompanha as curvas da densidade original, apenas com pequenas variações no tamanho da curva. Logo, eles possuem um comportamento parecido.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> phipsi<span class="sc">$</span>psi</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>densidade_x <span class="ot">&lt;-</span> <span class="fu">density</span>(x)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>densidade_amostra <span class="ot">&lt;-</span> <span class="fu">density</span>(a)</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>limites_x <span class="ot">&lt;-</span> <span class="fu">range</span>(<span class="fu">c</span>(densidade_x<span class="sc">$</span>x, densidade_amostra<span class="sc">$</span>x))</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparação gráfica</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(a, <span class="at">probability =</span> <span class="cn">TRUE</span>, <span class="at">breaks=</span><span class="dv">30</span>,</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"lightgrey"</span>,</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Comparação entre as Densidades"</span>,</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"psi"</span>,</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim=</span> limites_x)</span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(densidade_x, <span class="at">col =</span> <span class="st">"purple"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)              <span class="co"># densidade estimada original</span></span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(densidade_amostra, <span class="at">col =</span> <span class="st">"darkblue"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)  <span class="co"># densidade da amostra tam 600</span></span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Original"</span>, <span class="st">"Amostra 600"</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"purple"</span>, <span class="st">"darkblue"</span>), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">cex=</span><span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="trabalho1-não_paramétrica_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
